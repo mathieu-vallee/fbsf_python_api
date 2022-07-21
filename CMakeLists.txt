@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 3.15...3.22)
 
-project(scikit_build_example VERSION "0.0.1")
+project(fbsf_api VERSION "0.0.1")
+
+set(FBSF_HOME $ENV{FBSF_HOME})
+
+# find qt package
+find_package(Qt5Core REQUIRED)
+set(QT_CORE_TARGET Qt5::Core)
 
 if(SKBUILD)
   # Scikit-Build does not add your site-packages to the search path
@@ -17,8 +23,12 @@ endif()
 # Now we can find pybind11
 find_package(pybind11 CONFIG REQUIRED)
 
-pybind11_add_module(_core MODULE src/main.cpp)
+pybind11_add_module(_core MODULE src/main.cpp )
+target_link_libraries(_core PRIVATE ${QT_CORE_TARGET} 
+                      ${FBSF_HOME}/lib/release/FbsfApi.lib)
 
 target_compile_definitions(_core PRIVATE VERSION_INFO=${PROJECT_VERSION})
+
+include_directories(${FBSF_HOME}/FbsfFramework/FbsfApi)
 
 install(TARGETS _core DESTINATION .)

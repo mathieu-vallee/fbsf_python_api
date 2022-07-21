@@ -1,13 +1,37 @@
-import scikit_build_example as m
+#!/usr/bin/python
+import sys
+import fbsf_api as m
 
+def Test1a(ac,av):
+  failure = 0
+  st = m.FbsfStatus.FbsfUninitialized
+  while True:
+    print("Starting Test1a")
 
-def test_version():
-    assert m.__version__ == "0.0.1"
+    pComp = m.FbsfInstantiate("simul.xml", ac, av)
+    if(pComp == 0): failure += 1
+    if(failure): break
 
+    [su,st] = m.FbsfGetStatus(pComp, st)
+    if( su == m.FbsfSuccess.Failure or st != m.FbsfStatus.FbsfReady): failure += 2
+    if(failure): break
 
-def test_add():
-    assert m.add(1, 2) == 3
+    su = m.FbsfTerminate(pComp) 
+    if( su == m.FbsfSuccess.Failure): failure += 4
+    if(failure): break
 
+    [su,st] = m.FbsfGetStatus(pComp, st)
+    if( su == m.FbsfSuccess.Failure or st != m.FbsfStatus.FbsfTerminated): failure += 8
+    if(failure): break
 
-def test_sub():
-    assert m.subtract(1, 2) == -1
+    [su,pComp] = m.FbsfFreeInstance(pComp)
+    if( su == m.FbsfSuccess.Failure or pComp ): failure += 16
+    if(failure): break
+
+  return failure
+	
+if __name__ == '__main__':
+  argc = len(sys.argv)
+  err = Test1a(argc,sys.argv)
+  if err: print("Test1a err" + err)
+  sys.exit(err)
