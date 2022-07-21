@@ -1,41 +1,33 @@
-scikit_build_example
+fbsf_api
 ==============
 
-[![Gitter][gitter-badge]][gitter-link]
-
-|      CI              | status |
-|----------------------|--------|
-| conda.recipe         | [![Conda Actions Status][actions-conda-badge]][actions-conda-link] |
-| pip builds           | [![Pip Actions Status][actions-pip-badge]][actions-pip-link] |
-
-
-
-An example project built with [pybind11](https://github.com/pybind/pybind11) and scikit-build. Python 3.6+ (see older commits for older versions of Python).
-
-
-[gitter-badge]:            https://badges.gitter.im/pybind/Lobby.svg
-[gitter-link]:             https://gitter.im/pybind/Lobby
-[actions-badge]:           https://github.com/pybind/scikit_build_example/workflows/Tests/badge.svg
-[actions-conda-link]:      https://github.com/pybind/scikit_build_example/actions?query=workflow%3AConda
-[actions-conda-badge]:     https://github.com/pybind/scikit_build_example/workflows/Conda/badge.svg
-[actions-pip-link]:        https://github.com/pybind/scikit_build_example/actions?query=workflow%3APip
-[actions-pip-badge]:       https://github.com/pybind/scikit_build_example/workflows/Pip/badge.svg
-[actions-wheels-link]:     https://github.com/pybind/scikit_build_example/actions?query=workflow%3AWheels
-[actions-wheels-badge]:    https://github.com/pybind/scikit_build_example/workflows/Wheels/badge.svg
+This a a fork of pybind/scikit_build_example:master to build the FBSF API using Pybind11
 
 Installation
 ------------
 
-- clone this repository
-- `pip install ./scikit_build_example`
+1. clone this repository
+2. open a terminal with a python install available 
+(using a clean python install, virtual env or conda env is prefered)
+3. setup environement variables for FBSF (see below)
+4. `python -m pip install --upgrade pip`
+5. `pip install pytest pybind11 cmake scikit-build`
+6. `pip install ./fbsf_api`
 
+Setting up link to FBSF
+------------
 
-CI Examples
------------
+You need a valid FBSF install with API properly compiled for this to work
 
-There are examples for CI in `.github/workflows`. A simple way to produces
-binary "wheels" for all platforms is illustrated in the "wheels.yml" file,
-using [`cibuildwheel`][].
+If you have a variable FBSF_HOME pointing to your FBSF install, 
+the following should set up the all the variables
+
+call %FBSF_HOME%\QtVersion.bat
+call %FBSF_HOME%\fbsfenv.bat release
+
+You may also need to set up a compiler (e.g. using vcvarsall.bat)
+
+The script setupEnv.bat provides some examples of how to do so (should be improved)
 
 License
 -------
@@ -48,8 +40,9 @@ Test call
 ---------
 
 ```python
-import scikit_build_example
-scikit_build_example.add(1, 2)
+import fbsf_api
+pComp = m.FbsfInstantiate("simul.xml", ac, av)
 ```
 
-[`cibuildwheel`]:          https://cibuildwheel.readthedocs.io
+See test/run_api_examples.py for more details
+See also SampleTestResults.md for sample results
