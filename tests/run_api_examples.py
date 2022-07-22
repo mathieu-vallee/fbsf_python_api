@@ -213,33 +213,33 @@ if __name__ == '__main__':
     print("Usage ", sys.argv[0], " <args to pass to FBSF> ", " <id = 0 to 5> ")
     sys.exit()
   else:
-    i = int(sys.argv[1])
+    i = int(sys.argv[-1])
     print("Running test ", i)
  # i= random.randrange(6)
- #  i = 0
+ # i = 0
 
   if i == 0:
-    err = TestLoadSuccess(argc,sys.argv[:-1])
+    err = TestLoadSuccess(argc,sys.argv)
     if err: 
       print("TestLoadSuccess err="+str(err))
   elif i == 1:
-    err = TestLoadFailure(argc,sys.argv[:-1])
+    err = TestLoadFailure(argc,sys.argv)
     if err: 
       print("TestLoadFailure err="+str(err))
   elif i == 2:
-    err = TestSimpleSimu(argc,sys.argv[:-1])
+    err = TestSimpleSimu(argc,sys.argv)
     if err: 
       print("TestSimpleSimu err="+str(err))
   elif i == 3:
-    err = TestSimpleSimuFMU(argc,sys.argv[:-1])
+    err = TestSimpleSimuFMU(argc,sys.argv)
     if err: 
       print("TestSimpleSimuFMU err="+str(err))
   elif i == 4:
-    err = TestWallClock(argc,sys.argv[:-1])
+    err = TestWallClock(argc,sys.argv)
     if err: 
       print("TestWallClock err="+str(err))
   elif i == 5:
-    err = TestSaveRestore(argc,sys.argv[:-1])
+    err = TestSaveRestore(argc,sys.argv)
     if err: 
       print("TestSaveRestore err="+str(err))
   sys.exit(err)
